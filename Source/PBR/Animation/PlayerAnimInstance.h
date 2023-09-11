@@ -33,6 +33,12 @@ protected:
 
 	UPROPERTY(Category = AnimType, VisibleAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 		EPlayerAnimType mAnimType;
+
+	UPROPERTY(Category = AnimType, EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		TArray<TObjectPtr<UAnimMontage>> mAttackMontage;
+
+	bool	mAttackEnable;
+	int32	mAttackIndex;
 	
 public:
 	virtual void NativeInitializeAnimation() override;
@@ -44,4 +50,16 @@ public:
 
 public:
 	void DefaultAttack();
+
+	UFUNCTION()
+		void AnimNotify_Attack();
+
+	UFUNCTION()
+		void AnimNotify_Attack2();
+
+	UFUNCTION()
+		void AnimNotify_AttackEnable();
+
+	UFUNCTION()
+		void AnimNotify_AttackEnd();
 };

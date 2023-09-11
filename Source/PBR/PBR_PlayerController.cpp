@@ -10,12 +10,16 @@ APBR_PlayerController::APBR_PlayerController()
 	mClickOn = false;
 
 	bShowMouseCursor = true;
+
+	mCameraMin = 100.f;
+	mCameraMax = 2000.f;
 }
 
 void APBR_PlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
+	InputComponent->BindAxis(TEXT("CameraWheel"), this ,&APBR_PlayerController::CameraWheel);
 
 	InputComponent->BindAction(TEXT("MoveClick"), EInputEvent::IE_Pressed, this, &APBR_PlayerController::MouseRightClickOn);
 	InputComponent->BindAction(TEXT("MoveClick"), EInputEvent::IE_Released, this, &APBR_PlayerController::MouseRightClickOff);
@@ -33,7 +37,7 @@ void APBR_PlayerController::PlayerTick(float DeltaTime)
 
 void APBR_PlayerController::SetNewDestination(const FVector& Loc)
 {
-	APawn* const PlayerPawn = GetPawn();
+	APawn* const PlayerPawn = GetPawn();	
 
 	if (PlayerPawn)
 	{
@@ -76,4 +80,22 @@ void APBR_PlayerController::MouseLeftClickOn()
 	UPlayerAnimInstance* PlayerAnim = Cast<UPlayerAnimInstance>(PBRPlayer->GetMesh()->GetAnimInstance());
 
 	PlayerAnim->DefaultAttack();	
+}
+
+void APBR_PlayerController::CameraWheel(float _Scale)
+{
+	APawn* const PlayerPawn = GetPawn();
+
+	APBRPlayerBase* PBRPlayer = Cast<APBRPlayerBase>(PlayerPawn);
+
+	USpringArmComponent* Comp = PBRPlayer->GetComponentByClass<USpringArmComponent>();
+
+	Comp->TargetArmLength += (_Scale * -50.f);
+
+	if (Comp->TargetArmLength < mCameraMin)
+		Comp->TargetArmLength = mCameraMin;
+
+	else if (Comp->TargetArmLength > mCameraMax)
+		Comp->TargetArmLength = mCameraMax;
+
 }

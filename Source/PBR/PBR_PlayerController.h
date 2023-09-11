@@ -19,6 +19,8 @@ public:
 
 protected:
 	bool		mClickOn;
+	float		mCameraMin;
+	float		mCameraMax;
 
 public:
 	virtual void SetupInputComponent() override;
@@ -36,5 +38,8 @@ private:
 
 	// Default Attack
 	void MouseLeftClickOn();	
+
+	// Camera Zoom
+	void CameraWheel(float _Scale);
 	
 };

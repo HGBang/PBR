@@ -7,6 +7,8 @@
 UPlayerAnimInstance::UPlayerAnimInstance()
 {
 	mMoveSpeed = 0.f;
+	mAttackEnable = true;
+	mAttackIndex = 0;
 }
 
 void UPlayerAnimInstance::NativeInitializeAnimation()
@@ -52,5 +54,33 @@ void UPlayerAnimInstance::NativeBeginPlay()
 
 void UPlayerAnimInstance::DefaultAttack()
 {
-	mAnimType = EPlayerAnimType::Attack;
+	if (!mAttackEnable || Montage_IsPlaying(mAttackMontage[mAttackIndex]))
+		return;
+
+	mAttackEnable = false;
+
+	Montage_SetPosition(mAttackMontage[mAttackIndex], 0.f);
+
+	Montage_Play(mAttackMontage[mAttackIndex]);
+
+	mAttackIndex = (mAttackIndex + 1) % mAttackMontage.Num();
+}
+
+void UPlayerAnimInstance::AnimNotify_Attack()
+{
+
+}
+
+void UPlayerAnimInstance::AnimNotify_Attack2()
+{
+}
+
+void UPlayerAnimInstance::AnimNotify_AttackEnable()
+{
+	mAttackEnable = true;
+}
+
+void UPlayerAnimInstance::AnimNotify_AttackEnd()
+{
+	mAttackIndex = 0;
 }
