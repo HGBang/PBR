@@ -53,10 +53,9 @@ void APBR_PlayerController::SetNewDestination(const FVector& Loc)
 void APBR_PlayerController::MoveToMouseCursor()
 {
 	FHitResult MouseHit;
+	bool bBlock = GetHitResultUnderCursor(ECC_Visibility, false,OUT MouseHit);
 
-	GetHitResultUnderCursor(ECC_Visibility, false, MouseHit);
-
-	if (MouseHit.bBlockingHit)
+	if (bBlock)
 		SetNewDestination(MouseHit.ImpactPoint);
 
 }

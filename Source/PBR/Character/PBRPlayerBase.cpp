@@ -8,17 +8,17 @@ APBRPlayerBase::APBRPlayerBase()
 	PrimaryActorTick.bCanEverTick = true;
 	PrimaryActorTick.bStartWithTickEnabled = true;
 
-	mSpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
-	mCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	SpringArm = CreateDefaultSubobject<USpringArmComponent>(TEXT("SpringArm"));
+	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 
-	mSpringArm->SetupAttachment(GetMesh());
-	mSpringArm->TargetArmLength = 1200.f;
-	mSpringArm->SetRelativeLocation(FVector(0.0, 0.0, 150.0));
-	mSpringArm->SetRelativeRotation(FRotator(-40.0, 45.0, 0.0));
-	mSpringArm->bDoCollisionTest = false;
-	mSpringArm->SetUsingAbsoluteRotation(true);
+	SpringArm->SetupAttachment(GetMesh());
+	SpringArm->TargetArmLength = 1200.f;
+	SpringArm->SetRelativeLocation(FVector(0.0, 0.0, 150.0));
+	SpringArm->SetRelativeRotation(FRotator(-40.0, 45.0, 0.0));
+	SpringArm->bDoCollisionTest = false;
+	SpringArm->SetUsingAbsoluteRotation(true);
 
-	mCamera->SetupAttachment(mSpringArm);
+	Camera->SetupAttachment(SpringArm);
 
 	bUseControllerRotationPitch = false;
 	bUseControllerRotationRoll = false;
@@ -27,6 +27,9 @@ APBRPlayerBase::APBRPlayerBase()
 	GetCharacterMovement()->bOrientRotationToMovement = true;
 	GetCharacterMovement()->RotationRate = FRotator(0.0, 640.0, 0.0);
 
-	mCamera->bUsePawnControlRotation = false;
+	Camera->bUsePawnControlRotation = false;
+
+	GetCapsuleComponent()->SetCollisionProfileName(TEXT("Player"));
+	GetMesh()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 }

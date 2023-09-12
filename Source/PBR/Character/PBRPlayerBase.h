@@ -19,10 +19,10 @@ public:
 
 private:
 	UPROPERTY(Category = Component, EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<USpringArmComponent>		mSpringArm;
+	TObjectPtr<USpringArmComponent>		SpringArm;
 
 	UPROPERTY(Category = Component, EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-	TObjectPtr<UCameraComponent>		mCamera;
+	TObjectPtr<UCameraComponent>		Camera;
 
 	
 };
